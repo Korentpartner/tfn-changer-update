@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AdyOrbit — Smart Documents. Global Reach.</title>
+    <meta name="description" content="AdyOrbit: Next-generation document automation suite. Intelligently replace competitor TFNs, bulk-generate branded airline PDFs, and export high-resolution vector documents with flawless icon & emoji rendering.">
+    <meta name="keywords" content="AdyOrbit, TFN changer, bulk PDF maker, airline flight guide, phone number replacement, html2pdf, document automation">
+    <meta name="author" content="AdyOrbit">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#4f46e5">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="AdyOrbit — Smart Documents. Global Reach.">
+    <meta property="og:description" content="Replace phone numbers, customize headlines, and bulk generate branded airline PDFs with zero server required.">
+
+    <!-- Fonts: Inter + Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Quill.js Editor CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.min.css" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="light-theme">
+    <!-- Mobile Drawer Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="app-layout">
+
+        <!-- ── 1. GLOBAL TOP NAVBAR ── -->
+        <header class="global-navbar">
+            <div class="nav-brand-container">
+                <button class="mobile-menu-btn" id="mobileMenuBtn" title="Toggle Navigation Sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="brand-logo-group">
+                    <div class="brand-symbol">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 19.5H7.5L12 11.5L16.5 19.5H22L12 2Z" fill="url(#brandGrad1)"/>
+                            <path d="M12 14.5L9 20H15L12 14.5Z" fill="#10b981"/>
+                            <defs>
+                                <linearGradient id="brandGrad1" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#06b6d4"/>
+                                    <stop offset="0.5" stop-color="#3b82f6"/>
+                                    <stop offset="1" stop-color="#10b981"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <span class="brand-name">AdyOrbit</span>
+                </div>
+                <span class="brand-tagline">Smart Documents. Global Reach.</span>
+            </div>
+
+            <div class="nav-right-actions">
+                <button class="nav-icon-btn" id="themeToggleBtn" title="Toggle Light / Dark Theme">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+                <button class="nav-icon-btn nav-notification-btn" id="navNotificationBtn" title="System Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge"></span>
+                </button>
+                <button class="nav-text-btn" id="navHistoryBtn" title="View Document History">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>History</span>
+                </button>
+                <div class="user-profile-pill" id="userProfileBtn">
+                    <div class="avatar-badge">AD</div>
+                    <span class="user-label">AdyOrbit</span>
+                    <i class="fa-solid fa-chevron-down profile-chevron"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- ── 2. MAIN APP SHELL (SIDEBAR + WORKSPACE) ── -->
+        <div class="app-body">
+
+            <!-- LEFT WORKSPACE SIDEBAR -->
+            <aside class="left-sidebar" id="leftSidebar">
+                <div class="sidebar-section-title">WORKSPACE</div>
+                
+                <nav class="sidebar-nav">
+                    <button class="workspace-tab active" id="navTfnChanger">
+                        <div class="tab-icon-box purple-glow">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div class="tab-text-group">
+                            <span class="tab-title">TFN Changer</span>
+                            <span class="tab-subtitle">Replace phone numbers &amp; download PDF</span>
+                        </div>
+                    </button>
+
+                    <button class="workspace-tab" id="navBulkMaker">
+                        <div class="tab-icon-box dark-box">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div class="tab-text-group">
+                            <span class="tab-title">Bulk PDF Maker</span>
+                            <span class="tab-subtitle">Generate multiple PDFs at once</span>
+                        </div>
+                    </button>
+                </nav>
+
+                <div class="sidebar-tools-section">
+                    <div class="sidebar-section-title">TOOLS &amp; UTILITIES</div>
+                    <ul class="sub-nav-list">
+                        <li><a href="javascript:void(0)" id="navTemplates"><i class="fa-solid fa-file-lines"></i> Document Templates</a></li>
+                        <li><a href="javascript:void(0)" id="navVariables"><i class="fa-solid fa-code"></i> Dynamic Variables</a></li>
+                        <li><a href="javascript:void(0)" id="navSettings"><i class="fa-solid fa-gear"></i> Settings</a></li>
+                    </ul>
+                </div>
+
+                <!-- Bottom Support Card -->
+                <div class="sidebar-bottom-card">
+                    <div class="support-card">
+                        <div class="support-icon-ring">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <div class="support-text">
+                            <strong>Need Help?</strong>
+                            <p>Our team is here to support you.</p>
+                            <a href="javascript:void(0)" id="contactSupportBtn">Contact Support &rarr;</a>
+                        </div>
+                    </div>
+
+                    <div class="system-status-indicator">
+                        <span class="status-version">v2.0.0</span>
+                        <div class="status-badge-inline">
+                            <span class="status-dot-pulse"></span>
+                            <span>All systems operational</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- WORKSPACES VIEWPORT -->
+            <main class="workspaces-viewport">
+
+                <!-- ════════════════════════════════════════════════════════════════
+                     WORKSPACE 1: TFN CHANGER (IMAGE 2 DESIGN)
+                     ════════════════════════════════════════════════════════════════ -->
+                <div class="workspace-panel active" id="tfnChangerView">
+
+                    <!-- WORKSPACE TOP HEADER -->
+                    <div class="workspace-panel-header">
+                        <div class="header-title-box">
+                            <div class="header-icon-box purple-fill">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <h1 class="header-main-title">TFN Changer</h1>
+                                <p class="header-sub-desc">Edit content, replace TFNs and download a single PDF.</p>
+                            </div>
+                        </div>
+
+                        <div class="header-toolbar-group">
+                            <div class="pill-badge-green">
+                                <span class="dot-green"></span>
+                                <span>TFN Engine Active</span>
+                            </div>
+
+                            <div class="filename-input-group">
+                                <span class="input-prefix-label">PDF Filename</span>
+                                <div class="filename-box">
+                                    <input type="text" id="pdfFilenameInput" class="pdf-name-input" placeholder="e.g. delta-air">
+                                    <span class="pdf-extension-tag">.pdf</span>
+                                </div>
+                            </div>
+
+                            <button class="btn-outline-purple" id="moveToBulkBtn" title="Transfer this document to Bulk PDF Maker">
+                                <i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i>
+                                <span>Move to Bulk PDF Maker</span>
+                            </button>
+
+                            <button class="btn-primary-green" id="exportVectorPdfBtn" title="Generate and download vector PDF">
+                                <i class="fa-solid fa-download"></i>
+                                <span>Download PDF</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2-COLUMN MAIN CONTENT (EDITOR + REPLACEMENT PANEL) -->
+                    <div class="tfn-workspace-grid">
+
+                        <!-- LEFT COLUMN: RICH EDITOR CARD -->
+                        <div class="editor-column">
+                            <div class="editor-main-card">
+                                <!-- Document Title Field -->
+                                <div class="doc-title-bar">
+                                    <input type="text" id="docTitleInput" class="doc-headline-input" placeholder="Enter Document Title / Headline...">
+                                </div>
+
+                                <!-- Quill Editor Container (Starts 100% EMPTY) -->
+                                <div id="sourceEditor" class="quill-editor-host"></div>
+
+                                <!-- Editor Bottom Bar -->
+                                <div class="editor-footer-bar">
+                                    <div class="word-char-stats">
+                                        <span>Words: <strong id="wordCount">0</strong></span>
+                                        <span class="stats-sep">|</span>
+                                        <span>Characters: <strong id="charCount">0</strong></span>
+                                    </div>
+                                    <div class="save-status-indicator">
+                                        <span class="dot-green-small"></span>
+                                        <span id="saveStatusText">Ready for input</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- BOTTOM DUAL ACTION BANNERS -->
+                            <div class="bottom-action-banners">
+                                <div class="action-banner banner-purple" id="bannerDownloadPdf">
+                                    <div class="banner-icon-circle purple-circle">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                    </div>
+                                    <div class="banner-text">
+                                        <strong>Download PDF</strong>
+                                        <p>Generate and download your PDF with applied changes.</p>
+                                    </div>
+                                </div>
+
+                                <div class="action-banner banner-teal" id="bannerMoveToBulk">
+                                    <div class="banner-icon-circle teal-circle">
+                                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                    </div>
+                                    <div class="banner-text">
+                                        <strong>Move to Bulk PDF Maker</strong>
+                                        <p>Use this document to create multiple airline PDFs.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT COLUMN: TFN REPLACEMENT PANEL -->
+                        <div class="inspector-column">
+                            <div class="inspector-card">
+
+                                <div class="inspector-header-row">
+                                    <div class="inspector-title-group">
+                                        <div class="panel-icon-circle">
+                                            <i class="fa-solid fa-phone"></i>
+                                        </div>
+                                        <div>
+                                            <div class="panel-heading-line">
+                                                <strong class="panel-heading">TFN Replacement</strong>
+                                                <span class="numbers-count-pill" id="tfnNumbersCountBadge">0 Numbers</span>
+                                            </div>
+                                            <p class="panel-subtext">Enter one or more target numbers. The tool will replace all detected TFNs while keeping the original formatting.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- SOURCE AIRLINE NAME FIELD -->
+                                <div class="form-group-block">
+                                    <label class="form-label">Source Airline in Document:</label>
+                                    <input type="text" class="form-control-input" id="sourceAirlineInput" placeholder="e.g. Alaska or Delta">
+                                </div>
+
+                                <!-- TARGET TFNS CHIP INPUT AREA -->
+                                <div class="form-group-block">
+                                    <div class="label-with-hint">
+                                        <label class="form-label">Target TFNs (Add multiple numbers):</label>
+                                    </div>
+
+                                    <!-- Chip tag container -->
+                                    <div class="tfn-chips-wrapper" id="tfnChipsWrapper">
+                                        <div class="chips-list" id="tfnChipsList"></div>
+                                        <div class="chip-input-row">
+                                            <input type="text" class="chip-inline-input" id="targetTfn1Input" placeholder="Add primary number (e.g. +1 888 830 8592)">
+                                            <button type="button" class="btn-add-chip" id="btnAddChip1" title="Add Number">+</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="secondary-tfn-row" id="secondaryTfnRow">
+                                        <input type="text" class="form-control-input" id="targetTfn2Input" placeholder="Secondary number (e.g. +1 800 555 0199)">
+                                    </div>
+                                </div>
+
+                                <!-- ALTERNATE TOGGLE SWITCH -->
+                                <div class="toggle-switch-row">
+                                    <div class="toggle-label-group">
+                                        <i class="fa-solid fa-arrows-rotate toggle-icon"></i>
+                                        <span>Alternate between two numbers</span>
+                                        <i class="fa-solid fa-circle-info info-tooltip-icon" title="When enabled, phone numbers alternate deterministically (Target 1, Target 2, Target 1...) while preserving exact formatting."></i>
+                                    </div>
+                                    <label class="switch-container">
+                                        <input type="checkbox" id="alternateTfnSwitch" checked>
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+
+                                <!-- REPLACEMENT PREVIEW BOX -->
+                                <div class="replacement-preview-box">
+                                    <div class="preview-box-header">
+                                        <span class="preview-box-title">Replacement Preview</span>
+                                        <a href="javascript:void(0)" class="view-details-link" id="viewDetailsModalBtn">View Details</a>
+                                    </div>
+
+                                    <div class="preview-comparison-grid">
+                                        <div class="comp-col">
+                                            <span class="comp-label">Original Format</span>
+                                            <span class="comp-val val-orig" id="originalPreviewVal">--</span>
+                                        </div>
+                                        <div class="comp-col">
+                                            <span class="comp-label">After Replacement</span>
+                                            <span class="comp-val val-repl" id="outputPreviewVal">--</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4 STAT COUNTERS -->
+                                    <div class="audit-stats-quad">
+                                        <div class="stat-quad-cell">
+                                            <div class="stat-bullet bullet-purple"></div>
+                                            <div class="stat-quad-meta">
+                                                <span class="stat-quad-label">Numbers Detected</span>
+                                                <strong class="stat-quad-num" id="statDetected">0</strong>
+                                            </div>
+                                        </div>
+
+                                        <div class="stat-quad-cell">
+                                            <div class="stat-bullet bullet-green"></div>
+                                            <div class="stat-quad-meta">
+                                                <span class="stat-quad-label">Numbers Replaced</span>
+                                                <strong class="stat-quad-num" id="statReplaced">0</strong>
+                                            </div>
+                                        </div>
+
+                                        <div class="stat-quad-cell">
+                                            <div class="stat-bullet bullet-blue"></div>
+                                            <div class="stat-quad-meta">
+                                                <span class="stat-quad-label">TFN 1 Used</span>
+                                                <strong class="stat-quad-num" id="statTarget1">0</strong>
+                                            </div>
+                                        </div>
+
+                                        <div class="stat-quad-cell">
+                                            <div class="stat-bullet bullet-indigo"></div>
+                                            <div class="stat-quad-meta">
+                                                <span class="stat-quad-label">TFN 2 Used</span>
+                                                <strong class="stat-quad-num" id="statTarget2">0</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ACTION BUTTONS (RESET & APPLY) -->
+                                <div class="panel-action-buttons">
+                                    <button class="btn-panel-outline" id="undoTfnBtn">
+                                        <i class="fa-solid fa-rotate-left"></i> Reset
+                                    </button>
+                                    <button class="btn-panel-primary" id="applySmartTfnBtn">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i> Apply Replacement
+                                    </button>
+                                </div>
+
+                                <!-- ADVANCED SETTINGS COLLAPSIBLE -->
+                                <div class="advanced-settings-accordion">
+                                    <button class="accordion-trigger" id="toggleAdvancedSettings">
+                                        <span><i class="fa-solid fa-gear"></i> Advanced Settings</span>
+                                        <i class="fa-solid fa-chevron-down acc-arrow" id="accArrow"></i>
+                                    </button>
+                                    <div class="accordion-content" id="advancedSettingsContent" style="display: none;">
+                                        <div class="adv-field">
+                                            <label class="adv-label">TFN Matching Strictness:</label>
+                                            <select class="form-control-input" id="tfnStrictness">
+                                                <option value="standard" selected>Standard (10 to 15 digits)</option>
+                                                <option value="strict">Strict (North American 10-11 digits)</option>
+                                                <option value="international">International (+E.164 standard)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- QUICK ACTIONS GRID -->
+                                <div class="quick-actions-block">
+                                    <span class="quick-actions-title"><i class="fa-solid fa-compass"></i> Quick Actions</span>
+                                    <div class="quick-actions-grid">
+                                        <button class="btn-quick-action" id="qaImportDoc"><i class="fa-solid fa-arrow-up-from-bracket"></i> Import Document</button>
+                                        <button class="btn-quick-action" id="qaUseTemplate"><i class="fa-solid fa-file-invoice"></i> Use Template</button>
+                                        <button class="btn-quick-action" id="qaViewHistory"><i class="fa-solid fa-clock-rotate-left"></i> View History</button>
+                                        <button class="btn-quick-action" id="qaSettings"><i class="fa-solid fa-sliders"></i> Settings</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- ════════════════════════════════════════════════════════════════
+                     WORKSPACE 2: BULK PDF MAKER (IMAGE 3 DESIGN)
+                     ════════════════════════════════════════════════════════════════ -->
+                <div class="workspace-panel" id="bulkMakerView">
+
+                    <!-- WORKSPACE TOP HEADER -->
+                    <div class="workspace-panel-header">
+                        <div class="header-title-box">
+                            <div class="header-icon-box purple-fill">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            <div>
+                                <div class="title-with-pill">
+                                    <h1 class="header-main-title">Bulk PDF Maker</h1>
+                                    <span class="pill-badge-green"><i class="fa-solid fa-file-excel"></i> Excel-Free</span>
+                                </div>
+                                <p class="header-sub-desc">Create multiple airline-specific PDFs from a single template. No spreadsheets required.</p>
+                            </div>
+                        </div>
+
+                        <div class="header-toolbar-group">
+                            <button class="btn-outline-purple" id="bulkUseTemplateBtn">
+                                <i class="fa-solid fa-file-invoice"></i> Use Template
+                            </button>
+
+                            <!-- Current Template Loaded Card -->
+                            <div class="template-thumbnail-pill" id="templateThumbnailCard">
+                                <div class="thumb-icon-box">
+                                    <i class="fa-solid fa-plane"></i>
+                                </div>
+                                <div class="thumb-meta">
+                                    <span class="thumb-title" id="bulkTemplateTitleLabel">Your Current Template</span>
+                                    <span class="thumb-sub" id="bulkTemplateStatus"><i class="fa-solid fa-check"></i> Loaded from TFN Changer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2-COLUMN BULK GRID -->
+                    <div class="bulk-workspace-grid">
+
+                        <!-- LEFT COLUMN: 6 CONFIGURATION STEPS -->
+                        <div class="bulk-config-col">
+
+                            <!-- STEP 1: MASTER TEMPLATE -->
+                            <div class="bulk-step-card bulk-step-card-expanded">
+                                <div class="step-card-header">
+                                    <div class="step-heading-group">
+                                        <div class="step-num-icon"><i class="fa-solid fa-file-code"></i></div>
+                                        <div>
+                                            <strong class="step-title">1. Master Template</strong>
+                                            <p class="step-subtitle">Your content will be used to generate all PDFs.</p>
+                                        </div>
+                                    </div>
+                                    <div class="step-header-actions">
+                                        <button class="btn-mini-action" id="bulkLoadSampleBtn" title="Load sample airline flight guide template">
+                                            <i class="fa-solid fa-wand-magic-sparkles"></i> Load Sample
+                                        </button>
+                                        <button class="btn-mini-action" id="syncFromTfnBtn" title="Sync content from TFN Changer editor">
+                                            <i class="fa-solid fa-arrows-rotate"></i> Sync from TFN
+                                        </button>
+                                        <button class="btn-mini-action danger-hover" id="bulkClearTemplateBtn" title="Clear template content">
+                                            <i class="fa-solid fa-trash-can"></i> Clear
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- HEADLINE TAG CONFIGURATION (Mention Headline Tag for SEO & Bulk Replacement) -->
+                                <div class="headline-tag-control-bar">
+                                    <div class="headline-tag-selector-group">
+                                        <label for="bulkHeadlineTagSelect" class="headline-tag-label">
+                                            <i class="fa-solid fa-heading"></i> Headline Tag:
+                                        </label>
+                                        <select id="bulkHeadlineTagSelect" class="form-control-select headline-tag-dropdown">
+                                            <option value="h1" selected>&lt;h1&gt; Main Page Title (Google SEO Best Practice ⭐)</option>
+                                            <option value="h2">&lt;h2&gt; Section Headline (Sub-header)</option>
+                                            <option value="h3">&lt;h3&gt; Topic Heading (H3)</option>
+                                            <option value="h4">&lt;h4&gt; Minor Heading (H4)</option>
+                                            <option value="custom">Custom Tag / Selector...</option>
+                                        </select>
+                                        <input type="text" id="bulkCustomHeadlineTag" class="form-control-input headline-custom-tag-input" placeholder="e.g. .hero-title or [data-headline]" style="display: none;">
+                                    </div>
+
+                                    <div class="headline-detected-preview-group">
+                                        <span class="detected-tag-badge" id="bulkDetectedHeadlineBadge">
+                                            <i class="fa-solid fa-circle-check"></i> <span id="bulkHeadlineTagPillText">Tag: &lt;h1&gt;</span>
+                                        </span>
+                                        <input type="text" id="bulkHeadlineContentInput" class="form-control-input headline-quick-input" placeholder="Headline text extracted from template (editable)..." title="Headline text extracted from the selected tag">
+                                        <button type="button" class="btn-mini-action" id="bulkSetSelectionAsHeadlineBtn" title="Wrap or mark currently selected editor text with the active Headline Tag">
+                                            <i class="fa-solid fa-tag"></i> Set as Headline
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- MODE SWITCHER TABS (Visual Editor, HTML/Code Editor, Live Preview) -->
+                                <div class="bulk-editor-tabs-bar">
+                                    <div class="bulk-tabs-group">
+                                        <button type="button" class="bulk-tab-btn active" id="tabVisualEditor" data-tab="visual">
+                                            <i class="fa-solid fa-pen-nib"></i> Visual Editor
+                                        </button>
+                                        <button type="button" class="bulk-tab-btn" id="tabCodeEditor" data-tab="code">
+                                            <i class="fa-solid fa-code"></i> HTML / Code Editor
+                                        </button>
+                                        <button type="button" class="bulk-tab-btn" id="tabLivePreview" data-tab="preview">
+                                            <i class="fa-solid fa-eye"></i> Live Preview
+                                        </button>
+                                    </div>
+                                    <div class="bulk-tab-actions">
+                                        <span class="seo-indexable-badge" title="100% Selectable Text, Headings & Googlebot Crawlable">
+                                            <i class="fa-brands fa-google"></i> Google Indexable
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- TAB 1: VISUAL RICH EDITOR CONTAINER -->
+                                <div id="bulkVisualEditorContainer" class="bulk-tab-panel active">
+                                    <div id="bulkMasterQuillEditor" class="quill-editor-host bulk-quill-host"></div>
+                                </div>
+
+                                <!-- TAB 2: HTML / CODE EDITOR CONTAINER -->
+                                <div id="bulkCodeEditorContainer" class="bulk-tab-panel" style="display: none;">
+                                    <div class="code-editor-quick-toolbar">
+                                        <span class="quick-toolbar-label"><i class="fa-solid fa-bolt"></i> Quick Insert:</span>
+                                        <button type="button" class="btn-code-insert" data-insert="<h1>{headline}</h1>">+ &lt;h1&gt;</button>
+                                        <button type="button" class="btn-code-insert" data-insert="<h2>Sub-headline</h2>">+ &lt;h2&gt;</button>
+                                        <button type="button" class="btn-code-insert" data-insert="<p>Paragraph text...</p>">+ &lt;p&gt;</button>
+                                        <button type="button" class="btn-code-insert" data-insert="{airline}">+ {airline}</button>
+                                        <button type="button" class="btn-code-insert" data-insert="{tfn1}">+ {tfn1}</button>
+                                        <button type="button" class="btn-code-insert" data-insert="<a href='https://example.com'>Link</a>">+ &lt;a link&gt;</button>
+                                        <button type="button" class="btn-code-insert" id="btnFormatMasterHtml" title="Format and indent HTML code">
+                                            <i class="fa-solid fa-code-compare"></i> Format HTML
+                                        </button>
+                                    </div>
+                                    <textarea id="bulkMasterCodeTextarea" class="bulk-html-code-textarea" placeholder="Paste or type your custom HTML code here... Example:
+<h1>Delta Airlines Flight Booking & Reservations Guide</h1>
+<p>Delta Airlines is one of the world's leading carriers. Call our priority helpdesk at (855) 123-4567 for bookings.</p>
+<h2>Why Book with Delta?</h2>
+<ul>
+  <li>Instant confirmations and 24/7 support</li>
+  <li>Flexible changes and cancellation waivers</li>
+</ul>" spellcheck="false"></textarea>
+                                </div>
+
+                                <!-- TAB 3: LIVE PREVIEW CONTAINER -->
+                                <div id="bulkLivePreviewContainer" class="bulk-tab-panel" style="display: none;">
+                                    <div id="bulkMasterPreview" class="bulk-template-preview-host bulk-template-preview-full">
+                                        <p class="placeholder-text-muted">Master template is currently empty. Enter content in Visual Editor or paste HTML code in Code Editor.</p>
+                                    </div>
+                                </div>
+
+                                <!-- GOOGLE SEO & DOCUMENT INDEXING SETTINGS ACCORDION -->
+                                <div class="bulk-seo-accordion">
+                                    <div class="bulk-seo-header" id="bulkSeoToggleBtn">
+                                        <div class="seo-title-group">
+                                            <i class="fa-brands fa-google seo-icon"></i>
+                                            <strong class="seo-heading">Google SEO & Document Indexing Settings</strong>
+                                            <span class="seo-status-chip" id="seoStatusChip"><i class="fa-solid fa-circle-check"></i> 100% Indexable</span>
+                                        </div>
+                                        <i class="fa-solid fa-chevron-down seo-chevron" id="bulkSeoChevron"></i>
+                                    </div>
+                                    <div class="bulk-seo-body" id="bulkSeoBody" style="display: none;">
+                                        <p class="seo-help-desc">
+                                            Googlebot indexes text, headings, metadata, and crawlable links. Configure these settings to maximize search ranking:
+                                        </p>
+                                        <div class="seo-fields-grid">
+                                            <div>
+                                                <label class="mini-field-label">PDF Document Title (Google SERP Title Tag):</label>
+                                                <input type="text" class="form-control-input" id="bulkSeoDocTitle" placeholder="{headline} | Official Guide & Customer Support">
+                                                <span class="pattern-helper-text">Supports variables: {airline}, {headline}, {tfn1}</span>
+                                            </div>
+                                            <div>
+                                                <label class="mini-field-label">Meta Subject / Description (Google Snippet):</label>
+                                                <input type="text" class="form-control-input" id="bulkSeoSubject" placeholder="Complete travel guide, reservations and 24/7 customer support for {airline} flights.">
+                                            </div>
+                                            <div>
+                                                <label class="mini-field-label">Document Author / Brand:</label>
+                                                <input type="text" class="form-control-input" id="bulkSeoAuthor" placeholder="AdyOrbit Travel Guides">
+                                            </div>
+                                            <div>
+                                                <label class="mini-field-label">SEO Keywords (Comma-separated):</label>
+                                                <input type="text" class="form-control-input" id="bulkSeoKeywords" placeholder="{airline}, flight booking, reservations, customer service, support number">
+                                            </div>
+                                        </div>
+                                        <div class="seo-checklist-pills">
+                                            <span class="seo-pill"><i class="fa-solid fa-check"></i> Machine-Readable Vector Text Layer (Google Spider Crawlable)</span>
+                                            <span class="seo-pill"><i class="fa-solid fa-check"></i> H1/H2 Heading Hierarchy</span>
+                                            <span class="seo-pill"><i class="fa-solid fa-check"></i> PDF Metadata Dictionary</span>
+                                            <span class="seo-pill"><i class="fa-solid fa-check"></i> Clickable & Crawlable Hyperlinks</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bulk-template-footer">
+                                    <span class="template-state-tag" id="bulkTemplateReadyTag"><i class="fa-solid fa-circle-info"></i> Template is empty</span>
+                                    <span class="template-metrics" id="bulkTemplateMetrics">Words: 0 | Characters: 0 | Headings: 0</span>
+                                </div>
+                            </div>
+
+                            <!-- STEP 2: SOURCE AIRLINE NAME -->
+                            <div class="bulk-step-card">
+                                <div class="step-card-header">
+                                    <div class="step-heading-group">
+                                        <div class="step-num-icon"><i class="fa-solid fa-plane-departure"></i></div>
+                                        <div>
+                                            <strong class="step-title">2. Source Airline Name in Template ⓘ</strong>
+                                            <p class="step-subtitle">This airline name will be replaced with each target airline.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control-input" id="bulkSourceAirline" placeholder="e.g. Alaska or Delta Airlines">
+                            </div>
+
+                            <!-- STEP 3: TARGET AIRLINES -->
+                            <div class="bulk-step-card">
+                                <div class="step-card-header">
+                                    <div class="step-heading-group">
+                                        <div class="step-num-icon"><i class="fa-solid fa-list-check"></i></div>
+                                        <div>
+                                            <strong class="step-title">3. Target Airlines</strong>
+                                            <p class="step-subtitle">Enter one airline per line. Duplicates will be removed automatically.</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn-mini-action" id="loadSampleAirlinesBtn">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i> Load 5 Samples
+                                    </button>
+                                </div>
+
+                                <textarea class="bulk-airlines-textarea" id="bulkTargetAirlines" placeholder="Enter target airlines, one per line (e.g.&#10;Alaska&#10;Copa&#10;Delta&#10;United&#10;Southwest)..."></textarea>
+
+                                <div class="textarea-badge-footer">
+                                    <span class="chip-badge success" id="bulkAirlinesCount"><i class="fa-solid fa-check"></i> 0 valid airlines</span>
+                                    <span class="chip-badge muted" id="bulkDuplicatesWarning">0 duplicates</span>
+                                    <span class="chip-badge muted" id="bulkInvalidCount">0 invalid</span>
+                                </div>
+                            </div>
+
+                            <!-- STEP 4: HEADLINE CONFIGURATION -->
+                            <div class="bulk-step-card">
+                                <div class="step-card-header">
+                                    <div class="step-heading-group">
+                                        <div class="step-num-icon"><i class="fa-solid fa-heading"></i></div>
+                                        <div>
+                                            <strong class="step-title">4. Headline Configuration</strong>
+                                            <p class="step-subtitle">Choose how you want to handle headlines for each PDF.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="headline-mode-cards">
+                                    <div class="headline-card selected" id="optHeadlineAuto">
+                                        <div class="radio-indicator"></div>
+                                        <div>
+                                            <strong>Auto Generate</strong>
+                                            <p>Replace source airline name with target airline in the headline and content.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="headline-card" id="optHeadlineCustom">
+                                        <div class="radio-indicator"></div>
+                                        <div>
+                                            <strong>Custom Headlines</strong>
+                                            <p>Edit headline for each airline individually in the table.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="headline-tag-notice-bar" id="step4HeadlineNoticeBar">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    <span>Targeting Headline Tag: <strong id="step4HeadlineTagNotice">&lt;h1&gt;</strong> (from Step 1 Master Template)</span>
+                                </div>
+                            </div>
+
+                            <!-- STEP 5: PDF FILENAME PATTERN -->
+                            <div class="bulk-step-card">
+                                <div class="step-card-header">
+                                    <div class="step-heading-group">
+                                        <div class="step-num-icon"><i class="fa-solid fa-signature"></i></div>
+                                        <div>
+                                            <strong class="step-title">5. PDF Filename Pattern</strong>
+                                            <p class="step-subtitle">Enter a sample filename. The tool will generate the correct filenames for all airlines.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pattern-input-row">
+                                    <input type="text" class="form-control-input" id="bulkFilenamePattern" placeholder="e.g. delta-air">
+                                    <span class="pattern-status-pill"><i class="fa-solid fa-check"></i></span>
+                                </div>
+                                <span class="pattern-helper-text">Example: delta-air, delta-flight-guide, {airline}-air</span>
+
+                                <div class="filename-preview-pills" id="filenamePreviewPills"></div>
+                            </div>
+
+                            <!-- STEP 6: TFN REPLACEMENT IN BATCH -->
+                            <div class="bulk-step-card">
+                                <div class="step-card-header">
+                                    <div class="step-heading-group">
+                                        <div class="step-num-icon"><i class="fa-solid fa-phone"></i></div>
+                                        <div>
+                                            <strong class="step-title">6. TFN Replacement</strong>
+                                            <p class="step-subtitle">Use the same TFN engine as TFN Changer. Apply to all generated PDFs.</p>
+                                        </div>
+                                    </div>
+                                    <label class="switch-container">
+                                        <input type="checkbox" id="bulkTfnToggle" checked>
+                                        <span class="slider-round"></span>
+                                    </label>
+                                </div>
+
+                                <div class="bulk-tfn-inputs-grid" id="bulkTfnInputsArea">
+                                    <div>
+                                        <label class="mini-field-label">Target TFN 1:</label>
+                                        <input type="text" class="form-control-input" id="bulkTfn1" placeholder="Primary TFN (e.g. +1 888 830 8592)">
+                                    </div>
+                                    <div>
+                                        <label class="mini-field-label">Target TFN 2 (Optional):</label>
+                                        <input type="text" class="form-control-input" id="bulkTfn2" placeholder="Secondary TFN (e.g. +1 800 555 0199)">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- RIGHT COLUMN: GENERATION PREVIEW & ACTIONS -->
+                        <div class="bulk-preview-col">
+
+                            <!-- PREVIEW CARD -->
+                            <div class="preview-table-card">
+                                <div class="preview-card-header">
+                                    <div class="table-header-title">
+                                        <i class="fa-solid fa-table-list icon-purple"></i>
+                                        <div>
+                                            <strong class="card-main-heading">Generation Preview</strong>
+                                            <p class="card-sub-desc">Check your setup before generating all PDFs.</p>
+                                        </div>
+                                    </div>
+                                    <span class="chip-badge info" id="tableRowCountBadge">0 Ready</span>
+                                </div>
+
+                                <!-- Summary counters bar -->
+                                <div class="preview-metrics-bar">
+                                    <span>Total: <strong id="metricTotal">0</strong></span>
+                                    <span class="metrics-sep">•</span>
+                                    <span>Ready: <strong id="metricReady" style="color:#10b981">0</strong></span>
+                                    <span class="metrics-sep">•</span>
+                                    <span>Warnings: <strong id="metricWarnings" style="color:#f59e0b">0</strong></span>
+                                    <span class="metrics-sep">•</span>
+                                    <span>Errors: <strong id="metricErrors" style="color:#ef4444">0</strong></span>
+                                </div>
+
+                                <!-- Table Container -->
+                                <div class="preview-table-scroll">
+                                    <table class="bulk-table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 36px;">#</th>
+                                                <th>Airline</th>
+                                                <th>Headline</th>
+                                                <th>Filename</th>
+                                                <th style="width: 100px;">Status</th>
+                                                <th style="width: 60px; text-align: center;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bulkTableBody">
+                                            <tr>
+                                                <td colspan="6" class="empty-table-state">
+                                                    <i class="fa-solid fa-plane-slash"></i>
+                                                    <p>No airlines in queue. Enter target airlines on the left or click "Load 5 Samples" to populate.</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- READY TO GENERATE CARD -->
+                            <div class="ready-cta-card">
+                                <div class="ready-icon-circle">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                </div>
+                                <div class="ready-meta">
+                                    <strong>Ready to generate!</strong>
+                                    <p>All settings are valid. You can now create your PDFs.</p>
+                                </div>
+                            </div>
+
+                            <!-- ACTION BUTTONS -->
+                            <div class="bulk-action-buttons-group">
+                                <button class="btn-bulk-generate" id="bulkGenerateBtn">
+                                    <i class="fa-solid fa-bolt"></i> Generate All PDFs &rarr;
+                                </button>
+
+                                <button class="btn-bulk-download-zip" id="bulkDownloadZipBtn" disabled>
+                                    <i class="fa-solid fa-download"></i> Download ZIP
+                                    <span class="btn-subtext">Get all generated PDFs in a single ZIP file.</span>
+                                </button>
+                            </div>
+
+                            <!-- PROMO BANNER -->
+                            <div class="bulk-promo-banner">
+                                <div class="promo-text-group">
+                                    <div class="promo-title"><i class="fa-solid fa-paper-plane"></i> Create. Replace. Generate.</div>
+                                    <div class="promo-sub">Multiple airlines • One template • Endless possibilities</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- MODAL OVERLAY -->
+    <div id="appModalOverlay" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <button id="closeModalBtn" class="modal-close-btn" title="Close Modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Isolated PDF Rendering Mount Container -->
+    <div id="pdf-mount-container" style="position: absolute; left: 0; top: 0; pointer-events: none; z-index: -99999; opacity: 1;"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
+    <script src="js/app.js?v=20261014-v5"></script>
+</body>
+</html>
